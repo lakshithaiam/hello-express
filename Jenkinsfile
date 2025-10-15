@@ -83,12 +83,15 @@ spec:
                 }
             }
         }
-        stage('Deploy AI Application') {
+        stage('Deploy hello-express') {
             steps {
                 container('kubectl') {
                     script {
-                        dir('ai-app-deployment') {
+                        dir('hello-express-deployment') {
                             sh 'kubectl get node'
+                            sh 'kubectl apply -f hello-express-namespace.yaml'
+                            sh 'kubectl apply -f hello-express-deployment.yaml'
+                            sh 'sleep 99999'
                         }
                     }
                 }

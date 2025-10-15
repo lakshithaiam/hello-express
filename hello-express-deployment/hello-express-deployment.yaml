@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-express-deployment
+  namespace: hello-express
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-express
+  template:
+    metadata:
+      labels:
+        app: hello-express
+    spec:
+      imagePullSecrets:
+        - name: nexus-secret
+      containers:
+      - name: hello-express
+        image: 127.0.0.1:30085/my-repository/hello-express:v001
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-express-service
+  namespace: hello-express
+spec:
+  selector:
+    app: hello-express
+  ports:
+    - protocol: TCP
+      port: 3000  # Service port
+      targetPort: 3000  # Container port
+  type: ClusterIP
