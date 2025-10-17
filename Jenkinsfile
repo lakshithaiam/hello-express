@@ -61,6 +61,13 @@ spec:
         stage('SonarQube Analysis') {
             steps {
                 container('sonar-scanner') {
+                    sh '''
+                        sonar-scanner \
+                            -Dsonar.projectKey=hello-express \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=http://my-sonarqube-sonarqube.sonarqube.svc.cluster.local:9000 \
+                            -Dsonar.token=sqp_929dead11f6edc1a93ac7fbf93b05ccd72fe148b
+                    '''
                 }
             }
         }
